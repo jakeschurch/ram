@@ -1,17 +1,29 @@
 extern crate chrono;
 
-use std::fmt;
+use std::{cmp::Ordering, fmt};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Currency {
     amount: i64,
 }
 
 impl Currency {
-    pub fn new(input: f64) -> Self {
+    pub fn new(input: f64) -> Currency {
         Currency {
             amount: (input * 100.00) as i64,
         }
+    }
+}
+
+impl PartialOrd for Currency {
+    fn partial_cmp(&self, other: &Currency) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for Currency {
+    fn cmp(&self, other: &Currency) -> Ordering {
+        self.amount.cmp(&other.amount)
     }
 }
 
@@ -38,12 +50,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn currency_new_test() {
-        assert_eq!(1025, Currency::new(10.25).amount);
-        assert_eq!(-1025, Currency::new(-10.25).amount);
+    fn test_currency_new() {
+        assert_eq!(Currency { amount: 1025 }, Currency::new(10.25));
+        assert_eq!(Currency { amount: -1025 }, Currency::new(-10.25));
     }
     #[test]
-    fn currency_fmt_test() {
+    fn test_currency_fmt() {
         println!("{}", Currency::new(10.25));
         println!("{}", Currency::new(1025.00));
     }
