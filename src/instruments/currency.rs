@@ -3,10 +3,99 @@ use std::fmt;
 use std::ops::Div;
 
 #[derive(Debug, PartialEq, Eq, Clone)]
+/// Currency is a struct used to represent monetary value, such as a price.
 pub struct Currency(pub i64);
 
-impl Currency {
-    pub fn new(input: f32) -> Self {
+impl From<usize> for Currency {
+    fn from(input: usize) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<u8> for Currency {
+    fn from(input: u8) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<u16> for Currency {
+    fn from(input: u16) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<u32> for Currency {
+    fn from(input: u32) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<u64> for Currency {
+    fn from(input: u64) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<isize> for Currency {
+    fn from(input: isize) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<i8> for Currency {
+    fn from(input: i8) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<i16> for Currency {
+    fn from(input: i16) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<i32> for Currency {
+    fn from(input: i32) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<i64> for Currency {
+    fn from(input: i64) -> Self {
+        Currency {
+            0: input as i64 * 100,
+        }
+    }
+}
+
+impl From<f32> for Currency {
+    fn from(input: f32) -> Self {
+        Currency {
+            0: (input * 100.00) as i64,
+        }
+    }
+}
+
+impl From<f64> for Currency {
+    fn from(input: f64) -> Self {
         Currency {
             0: (input * 100.00) as i64,
         }
@@ -16,9 +105,13 @@ impl Currency {
 impl Div<Currency> for Currency {
     type Output = f32;
     fn div(self, rhs: Currency) -> Self::Output {
-        (self.0 * 200 + rhs.0) as f32 / (rhs.0 * 2) as f32
+        let numerator = self.0 * 200 + rhs.0;
+        let denominator = rhs.0 * 2;
+        ((numerator / denominator) / 100) as f32
     }
 }
+
+// TODO: Impl Mul<Currency> trait
 
 impl PartialOrd for Currency {
     fn partial_cmp(&self, other: &Currency) -> Option<Ordering> {
@@ -54,27 +147,87 @@ impl fmt::Display for Currency {
 mod tests {
     use super::*;
 
+    const expected: Currency = Currency(200);
+
     #[test]
-    fn test_currency_new() {
-        assert_eq!(Currency { 0: 1025 }, Currency::new(10.25));
-        assert_eq!(Currency { 0: -1025 }, Currency::new(-10.25));
+    fn currency_from_usize() {
+        let num: usize = 2;
+        assert_eq!(Currency::from(num), expected)
     }
 
     #[test]
-    fn test_currency_fmt() {
-        println!("{}", Currency::new(10.25));
-        println!("{}", Currency::new(1025.00));
+    fn currency_from_u8() {
+        let num: u8 = 2;
+        assert_eq!(Currency::from(num), expected)
     }
 
     #[test]
-    fn test_currency_ord() {
-        assert!(Currency::new(10.00) > Currency::new(9.00));
+    fn currency_from_u16() {
+        let num: u16 = 2;
+        assert_eq!(Currency::from(num), expected)
     }
 
     #[test]
-    #[should_panic]
-    // TODO
-    fn test_currency_div() {
-        unimplemented!();
+    fn currency_from_u32() {
+        let num: u32 = 2;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_u64() {
+        let num: u64 = 2;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_isize() {
+        let num: isize = 2;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_i8() {
+        let num: i8 = 2;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_i16() {
+        let num: i16 = 2;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_i32() {
+        let num: i32 = 2;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_i64() {
+        let num: i64 = 2;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_f32() {
+        let num: f32 = 2.0;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_from_f64() {
+        let num: f64 = 2.0;
+        assert_eq!(Currency::from(num), expected)
+    }
+
+    #[test]
+    fn currency_ord() {
+        assert!(Currency::from(10.00) > Currency::from(9.00));
+    }
+
+    #[test]
+    fn currency_div() {
+        assert_eq!(Currency::from(20) / Currency::from(2), 10.00)
     }
 }
