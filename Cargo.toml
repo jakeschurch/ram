@@ -9,7 +9,6 @@ repository = "https://github.com/jakeschurch/trade_rs"
 
 [badges]
 travis-ci = { repository = "jakeschurch/trade_rs" }
-codecov = {repository = "jakeschurch/trade_rs" }
 maintenance = { status = "actively-developed" }
 
 [dependencies]
@@ -17,6 +16,7 @@ chrono = { version = "0.4", features = ["serde"] }
 num = "0.2.0"
 
 [dev-dependencies]
+lazy_static = "1.0.2"
 criterion = "0.2"
 
 [[bench]]

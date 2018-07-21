@@ -1,11 +1,10 @@
 use chrono::{DateTime, Utc};
-use instruments::Currency;
-use std::cell::RefCell;
+use instruments::currency::Currency;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Clone)]
 pub struct Order {
     // REVIEW: id field?
-    pub symbol: &'static str,
+    pub symbol: String,
     pub price: Currency,
     pub qty: u32,
     pub side: Side,
@@ -14,16 +13,10 @@ pub struct Order {
 }
 
 impl Order {
-    pub fn new(
-        symbol: &'static str,
-        price: f32,
-        qty: u32,
-        side: Side,
-        datetime: DateTime<Utc>,
-    ) -> Order {
+    pub fn new(symbol: String, price: f32, qty: u32, side: Side, datetime: DateTime<Utc>) -> Self {
         Order {
             symbol,
-            price: Currency::new(price),
+            price: Currency::from(price),
             qty,
             side,
             datetime,
@@ -32,6 +25,7 @@ impl Order {
     }
 }
 
+#[allow(dead_code)]
 #[derive(PartialEq, Eq, Debug, Clone, PartialOrd, Ord)]
 /// State indicates the state machine of an order.
 pub enum State {
@@ -51,6 +45,7 @@ pub enum Side {
     Sell,
 }
 
+#[allow(dead_code)]
 #[derive(PartialEq, Eq, Debug, Clone, PartialOrd, Ord)]
 /// Logic indicates an order's execution logic.
 /// NOTE(Logic): Currently only allowing market logic orders.
